@@ -95,7 +95,7 @@ contract BookingBox is Ownable, ReentrancyGuard {
         require(bytes(location).length > 0, "Location cannot be empty");
         require(bytes(images).length > 0, "Images cannot be empty");
         require(rooms > 0, "Rooms cannot be zero");
-        require(price > 0, "Price cannot be zero");
+        require(price > 0 ether, "Price cannot be zero");
 
         _totalHomestaysListed.increment();
         HomestayStructure memory lodge;
@@ -154,11 +154,11 @@ contract BookingBox is Ownable, ReentrancyGuard {
     }
 
     function getHomestays() public view returns (HomestayStructure[] memory Homestays) {
-        uint256 available;
+        uint256 availableHomestays;
         for (uint i = 1; i <= _totalHomestaysListed.current(); i++) {
-            if(!homestays[i].deleted) available++;
+            if(!homestays[i].deleted) availableHomestays++;
         }
-        Homestays = new HomestayStructure[](available);
+        Homestays = new HomestayStructure[](availableHomestays);
 
         uint256 index;
         for (uint i = 1; i <= _totalHomestaysListed.current(); i++) {
