@@ -206,11 +206,11 @@ contract BookingBox is Ownable, ReentrancyGuard {
             bookingsOf[aid].push(booking);
             isDateBooked[aid][dates[i]] = true;
             bookedDates[aid].push(dates[i]);
-            hasBooked[msg.sender][dates[i]] = true;
+            // hasBooked[msg.sender][dates[i]] = true;
         }
     }
 
-    function checkInHomestay(uint aid, uint bookingId) public {
+    function checkInHomestay(uint aid, uint bookingId) public nonReentrant() {
         BookingStructure memory booking = bookingsOf[aid][bookingId];
         require(msg.sender == booking.tenant, "Unauthorized tenant!");
         require(!booking.checkedIn, "Homestay already Checked-in!");
@@ -241,7 +241,7 @@ contract BookingBox is Ownable, ReentrancyGuard {
         payTo(msg.sender, securityFee);
     }
 
-    function refundBooking(uint aid, uint bookingId) public nonReentrant {
+    function refundBooking(uint aid, uint bookingId) public nonReentrant() {
         BookingStructure memory booking = bookingsOf[aid][bookingId];
         require(
             !booking.checkedIn,
