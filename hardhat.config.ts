@@ -1,11 +1,12 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-ethers");
 require("dotenv").config();
 
 const PEGASUS_URL = process.env.PEGASUS_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
-const config: HardhatUserConfig = {
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
   solidity: "0.8.19",
   networks: {
     pegasus: {
@@ -15,4 +16,3 @@ const config: HardhatUserConfig = {
   }
 };
 
-export default config;
